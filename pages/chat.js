@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styles from '../styles/Chat.module.css';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getSmartResponse, analyzeEmotion } from '../utils/aiResponses';
 
 export default function Chat() {
   const { t } = useLanguage();
@@ -32,23 +33,6 @@ export default function Chat() {
     setMessages([initialMessage]);
   }, [t]);
 
-  const aiResponses = [
-    t('aiResponse1'),
-    t('aiResponse2'),
-    t('aiResponse3'),
-    t('aiResponse4'),
-    t('aiResponse5'),
-    t('aiResponse6'),
-    t('aiResponse7'),
-    t('aiResponse8'),
-    t('aiResponse9'),
-    t('aiResponse10'),
-  ];
-
-  const getRandomResponse = () => {
-    return aiResponses[Math.floor(Math.random() * aiResponses.length)];
-  };
-
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || turnCount >= 5) return;
 
@@ -64,11 +48,21 @@ export default function Chat() {
     setIsTyping(true);
     setTurnCount((prev) => prev + 1);
 
-    // AI 응답 시뮬레이션
+    // 스마트 응답 시스템 사용
     setTimeout(() => {
+      let aiResponse;
+
+      if (turnCount >= 4) {
+        // 마지막 턴에서는 수면 모드로 안내
+        aiResponse = t('finalMessage');
+      } else {
+        // 사용자 메시지에 따른 스마트 응답
+        aiResponse = getSmartResponse(inputMessage);
+      }
+
       const aiMessage = {
         id: messages.length + 2,
-        text: turnCount >= 4 ? t('finalMessage') : getRandomResponse(),
+        text: aiResponse,
         sender: 'ai',
         timestamp: new Date(),
       };
