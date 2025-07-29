@@ -1,0 +1,128 @@
+.installPrompt {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #e94560;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  max-width: 350px;
+  width: 90%;
+  animation: slideUp 0.3s ease-out;
+}
+
+.installContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.installIcon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  animation: pulse 2s infinite;
+}
+
+.installText h3 {
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.installText p {
+  color: #b8b8b8;
+  margin: 0 0 20px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.installButtons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.installButton {
+  flex: 1;
+  background: linear-gradient(135deg, #e94560 0%, #c44569 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+}
+
+.installButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+}
+
+.dismissButton {
+  flex: 1;
+  background: transparent;
+  color: #b8b8b8;
+  border: 2px solid #b8b8b8;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dismissButton:hover {
+  background: rgba(184, 184, 184, 0.1);
+  color: #ffffff;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* 모바일 반응형 */
+@media (max-width: 480px) {
+  .installPrompt {
+    bottom: 10px;
+    padding: 15px;
+    max-width: 320px;
+  }
+
+  .installText h3 {
+    font-size: 1.1rem;
+  }
+
+  .installText p {
+    font-size: 0.85rem;
+  }
+
+  .installButtons {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

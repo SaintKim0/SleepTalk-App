@@ -1,0 +1,332 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.main {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: white;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.backButton {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.backButton:hover {
+  opacity: 1;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin: 0;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+  font-weight: 300;
+}
+
+.journalSection {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ecdc4, #44a08d);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.promptSection {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.promptTitle {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.prompt {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.inputSection {
+  margin-bottom: 30px;
+}
+
+.gratitudeInput {
+  width: 100%;
+  min-height: 120px;
+  padding: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.gratitudeInput:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.gratitudeInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.skipButton,
+.nextButton {
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.skipButton {
+  background: transparent;
+  color: white;
+  opacity: 0.7;
+}
+
+.skipButton:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nextButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.nextButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nextButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.completeSection {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 30px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.completeIcon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.completeTitle {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+
+.completeText {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.summarySection {
+  margin-bottom: 30px;
+}
+
+.summaryTitle {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.summaryItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.summaryNumber {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.summaryText {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.continueButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.continueButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tips {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tipsTitle {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+
+.tipsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tipsList li {
+  padding: 8px 0;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.tipsList li:before {
+  content: '•';
+  color: #4ecdc4;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .main {
+    padding: 20px 15px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .journalSection {
+    padding: 20px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+
+  .summaryItem {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .summaryNumber {
+    align-self: flex-start;
+  }
+}
