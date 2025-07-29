@@ -346,3 +346,63 @@
     font-size: 0.85rem;
   }
 }
+
+.aiMode {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.hfMode {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.basicMode {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.setupGuide {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.setupGuide h4 {
+  color: white;
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+}
+
+.setupGuide p {
+  color: #b8b8b8;
+  margin: 0 0 15px 0;
+  font-size: 0.9rem;
+}
+
+.setupGuide ul {
+  color: #b8b8b8;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0 0 15px 0;
+  padding-left: 20px;
+}
+
+.setupGuide li {
+  margin-bottom: 5px;
+}
+
+.setupGuide strong {
+  color: white;
+}
