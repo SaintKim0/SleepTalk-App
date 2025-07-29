@@ -71,7 +71,7 @@
 
 .colorPalette {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
   gap: 15px;
   margin-bottom: 30px;
 }
@@ -100,15 +100,16 @@
 
 .emotionLabel {
   position: absolute;
-  bottom: 10px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   font-size: 1.1rem;
   font-weight: 600;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
   white-space: nowrap;
   letter-spacing: 0.5px;
+  text-align: center;
 }
 
 .adviceSection {
@@ -209,12 +210,11 @@
 
   .colorPalette {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 
   .emotionLabel {
     font-size: 1rem;
-    bottom: 8px;
   }
 
   .quote {
