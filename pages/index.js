@@ -1,81 +1,62 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import { useLanguage } from '../contexts/LanguageContext';
-import LanguageSelector from '../components/LanguageSelector';
-import PWAInstallPrompt from '../components/PWAInstallPrompt';
-
-// 감정 색상 매핑
-const emotionColors = [
-  { emotionKey: 'sadness', icon: '😢' },
-  { emotionKey: 'calm', icon: '😌' },
-  { emotionKey: 'anxiety', icon: '😰' },
-  { emotionKey: 'gratitude', icon: '🙏' },
-  { emotionKey: 'joy', icon: '😊' },
-  { emotionKey: 'loneliness', icon: '🥺' },
-  { emotionKey: 'hope', icon: '✨' },
-  { emotionKey: 'contentment', icon: '😌' },
-];
+import ChatModal from '../components/ChatModal';
 
 export default function Home() {
-  const { t, language, changeLanguage } = useLanguage();
+  const { t } = useLanguage();
   const [selectedEmotion, setSelectedEmotion] = useState(null);
-  const [currentQuote, setCurrentQuote] = useState('');
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false);
 
-  // 클라이언트 사이드에서만 인용구 설정
-  useEffect(() => {
-    const quotes = t('quotes');
-    setCurrentQuote(quotes[Math.floor(Math.random() * quotes.length)]);
-  }, [t]);
-  const [showAdvice, setShowAdvice] = useState(false);
+  // 감정 색상 매핑
+  const emotionColors = [
+    { emotionKey: 'sadness', icon: '😢' },
+    { emotionKey: 'calm', icon: '😌' },
+    { emotionKey: 'anxiety', icon: '😰' },
+    { emotionKey: 'gratitude', icon: '🙏' },
+    { emotionKey: 'joy', icon: '😊' },
+    { emotionKey: 'loneliness', icon: '🥺' },
+    { emotionKey: 'hope', icon: '✨' },
+    { emotionKey: 'contentment', icon: '😌' },
+  ];
 
   const handleEmotionSelect = (emotionKey) => {
-    const emotion = {
-      key: emotionKey,
-      name: t(`emotions.${emotionKey}.name`),
-      advice: t(`emotions.${emotionKey}.advice`),
-    };
-    setSelectedEmotion(emotion);
-    setShowAdvice(true);
+    setSelectedEmotion(emotionKey);
+    setIsChatModalOpen(true);
+  };
+
+  const handleCloseChatModal = () => {
+    setIsChatModalOpen(false);
+    setSelectedEmotion(null);
   };
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>SleepTalk - Mental Wellness App</title>
-        <meta
-          name="description"
-          content="A mental wellness app to help you fall asleep"
-        />
-        <link rel="icon" href="/favicon.ico" />
+        <title>SleepTalk - AI 동반자</title>
+        <meta name="description" content="AI와 함께하는 수면 준비" />
       </Head>
 
       <main className={styles.main}>
         <div className={styles.header}>
-          <div className={styles.languageSelector}>
-            <LanguageSelector
-              currentLanguage={language}
-              onLanguageChange={changeLanguage}
-            />
-          </div>
-          <h1 className={styles.title}>🌙 {t('title')}</h1>
+          <h1 className={styles.title}>🌙 SleepTalk</h1>
           <p className={styles.subtitle}>{t('subtitle')}</p>
         </div>
 
         <div className={styles.quoteSection}>
-          {currentQuote && <p className={styles.quote}>"{currentQuote}"</p>}
+          <blockquote className={styles.quote}>"{t('quote')}"</blockquote>
         </div>
 
-        <div className={styles.emotionSection}>
-          <h2 className={styles.sectionTitle}>{t('emotionQuestion')}</h2>
-          <div className={styles.colorPalette}>
-            {emotionColors.map((emotion, index) => (
+        <section className={styles.colorPalette}>
+          <h2 className={styles.sectionTitle}>{t('howDoYouFeel')}</h2>
+          <div className={styles.emotionGrid}>
+            {emotionColors.map((emotion) => (
               <button
-                key={index}
+                key={emotion.emotionKey}
                 className={`${styles.colorButton} ${
-                  selectedEmotion?.key === emotion.emotionKey
-                    ? styles.selected
-                    : ''
+                  selectedEmotion === emotion.emotionKey ? styles.selected : ''
                 }`}
                 data-emotion={emotion.emotionKey}
                 onClick={() => handleEmotionSelect(emotion.emotionKey)}
@@ -92,38 +73,34 @@ export default function Home() {
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
-        {showAdvice && selectedEmotion && (
-          <div className={styles.adviceSection}>
-            <h3 className={styles.adviceTitle}>
-              {language === 'ko'
-                ? `당신의 ${selectedEmotion.name}한 마음을 위해:`
-                : `For your ${selectedEmotion.name.toLowerCase()} heart:`}
-            </h3>
-            <p className={styles.adviceText}>{selectedEmotion.advice}</p>
-            <button
-              className={styles.nextButton}
-              onClick={() => (window.location.href = '/gratitude')}
-            >
-              {t('continueToGratitude')}
-            </button>
-          </div>
-        )}
+        <section className={styles.advice}>
+          <h2 className={styles.adviceTitle}>{t('adviceTitle')}</h2>
+          <p className={styles.adviceText}>{t('adviceText')}</p>
+          <Link href="/gratitude" className={styles.nextButton}>
+            {t('nextStep')}
+          </Link>
+        </section>
 
-        <div className={styles.features}>
-          <h3 className={styles.featuresTitle}>{t('tonightsJourney')}</h3>
-          <div className={styles.featureList}>
-            <div className={styles.feature}>🎨 {t('chooseEmotion')}</div>
-            <div className={styles.feature}>📝 {t('writeGratefulMoments')}</div>
-            <div className={styles.feature}>💬 {t('chatWithAI')}</div>
-            <div className={styles.feature}>🌙 {t('driftToSleep')}</div>
-          </div>
-        </div>
+        <section className={styles.features}>
+          <h2 className={styles.featuresTitle}>{t('featuresTitle')}</h2>
+          <ul className={styles.featuresList}>
+            {t('featuresList').map((feature, index) => (
+              <li key={index} className={styles.feature}>
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </section>
       </main>
 
-      {/* PWA 설치 프롬프트 */}
-      <PWAInstallPrompt />
+      {/* 모달 대화창 */}
+      <ChatModal
+        isOpen={isChatModalOpen}
+        onClose={handleCloseChatModal}
+        selectedEmotion={selectedEmotion}
+      />
     </div>
   );
 }
