@@ -137,7 +137,17 @@
 /* AI 모드 표시 */
 .aiMode {
   text-align: center;
-  margin: 15px 0;
+  margin: 10px 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.aiModeDisplay {
+  display: flex;
+  align-items: center;
 }
 
 .deepseekMode,
@@ -157,14 +167,13 @@
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   color: white;
-  padding: 10px 20px;
-  border-radius: 25px;
-  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-  margin: 10px auto;
-  display: block;
+  display: inline-block;
 }
 
 .resetButton:hover {
@@ -409,6 +418,19 @@
     padding: 12px;
   }
 
+  .aiMode {
+    gap: 12px;
+    margin: 12px 0;
+  }
+
+  .deepseekMode,
+  .gptMode,
+  .smartMode,
+  .resetButton {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+
   .chatContainer {
     height: 350px;
   }
@@ -456,6 +478,19 @@
     height: 45px;
     font-size: 1.2rem;
     padding: 10px;
+  }
+
+  .aiMode {
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .deepseekMode,
+  .gptMode,
+  .smartMode,
+  .resetButton {
+    font-size: 0.85rem;
+    padding: 5px 10px;
   }
 
   .chatContainer {

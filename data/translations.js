@@ -10,6 +10,18 @@ export const translations = {
     writeGratefulMoments: 'Write 3 grateful moments',
     chatWithAI: 'Chat with AI companion',
     driftToSleep: 'Drift into peaceful sleep',
+    howDoYouFeel: 'How are you feeling tonight?',
+    quote: 'The night is the hardest time to be alive and 4am knows all my secrets.',
+    adviceTitle: 'Your Journey Tonight',
+    adviceText: 'Take a moment to reflect on your emotions and prepare for peaceful sleep.',
+    nextStep: 'Continue to Gratitude Journal →',
+    featuresTitle: 'Tonight\'s Journey',
+    featuresList: [
+      '🎨 Choose your emotion',
+      '📝 Write 3 grateful moments',
+      '💬 Chat with AI companion',
+      '🌙 Drift into peaceful sleep',
+    ],
 
     // Emotions
     emotions: {
@@ -173,6 +185,18 @@ export const translations = {
     writeGratefulMoments: '감사한 순간 3가지를 적어보세요',
     chatWithAI: 'AI 동반자와 대화하기',
     driftToSleep: '평화로운 수면으로 빠져들기',
+    howDoYouFeel: '오늘 밤 기분이 어떠신가요?',
+    quote: '밤은 살아있기 가장 힘든 시간이고, 새벽 4시는 내 모든 비밀을 알고 있어.',
+    adviceTitle: '오늘 밤의 여정',
+    adviceText: '감정을 반영하고 평화로운 수면을 준비하는 순간을 가져보세요.',
+    nextStep: '감사 일기로 계속하기 →',
+    featuresTitle: '오늘 밤의 여정',
+    featuresList: [
+      '🎨 감정을 선택하세요',
+      '📝 감사한 순간 3가지를 적어보세요',
+      '💬 AI 동반자와 대화하기',
+      '🌙 평화로운 수면으로 빠져들기',
+    ],
 
     // Emotions
     emotions: {

@@ -296,25 +296,25 @@ export default function ChatModal({ isOpen, onClose, selectedEmotion }) {
           </button>
         </div>
 
-        {/* AI 모드 표시 */}
+        {/* AI 모드 표시와 대화 초기화 버튼 */}
         <div className={styles.aiMode}>
-          {aiMode === 'deepseek' && useDeepSeek ? (
-            <span className={styles.deepseekMode}>🧠 디피(Deepy)</span>
-          ) : aiMode === 'gpt' && useGPT ? (
-            <span className={styles.gptMode}>🧠 체시(Chaty)</span>
-          ) : (
-            <span className={styles.smartMode}>🤖 스마트 AI</span>
-          )}
+          <div className={styles.aiModeDisplay}>
+            {aiMode === 'deepseek' && useDeepSeek ? (
+              <span className={styles.deepseekMode}>🧠 디피(Deepy)</span>
+            ) : aiMode === 'gpt' && useGPT ? (
+              <span className={styles.gptMode}>🧠 체시(Chaty)</span>
+            ) : (
+              <span className={styles.smartMode}>🤖 스마트 AI</span>
+            )}
+          </div>
+          <button
+            className={styles.resetButton}
+            onClick={handleResetConversation}
+            title="대화 초기화"
+          >
+            🔄 새로 시작
+          </button>
         </div>
-
-        {/* 대화 초기화 버튼 */}
-        <button
-          className={styles.resetButton}
-          onClick={handleResetConversation}
-          title="대화 초기화"
-        >
-          🔄 새로 시작
-        </button>
 
         <div className={styles.chatContainer}>
           <div className={styles.messagesContainer}>

@@ -127,6 +127,8 @@
   display: flex;
   gap: 15px;
   justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .skipButton,
@@ -138,6 +140,9 @@
   transition: all 0.3s ease;
   border: 2px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
+  min-width: 120px;
+  flex: 1;
+  max-width: 200px;
 }
 
 .skipButton {
@@ -306,12 +311,11 @@
 /* 모바일 반응형 */
 @media (max-width: 768px) {
   .container {
-    padding: 10px;
+    padding: 15px;
   }
 
   .main {
-    padding: 20px 10px;
-    max-width: 100%;
+    padding: 30px 15px;
   }
 
   .header {
@@ -319,7 +323,7 @@
   }
 
   .title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   .subtitle {
@@ -331,7 +335,7 @@
   }
 
   .journalSection {
-    padding: 20px;
+    padding: 25px 20px;
     margin-bottom: 25px;
   }
 
@@ -340,27 +344,29 @@
   }
 
   .prompt {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 
   .gratitudeInput {
-    font-size: 0.9rem;
-    padding: 12px 15px;
+    font-size: 0.95rem;
+    padding: 15px;
   }
 
   .buttonGroup {
-    flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    margin-top: 15px;
   }
 
   .skipButton,
   .nextButton {
-    padding: 10px 20px;
-    font-size: 0.9rem;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    min-width: 100px;
+    max-width: 150px;
   }
 
   .completeTitle {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   .completeText {
@@ -368,24 +374,21 @@
   }
 
   .summarySection {
-    padding: 20px;
+    margin-bottom: 25px;
   }
 
   .summaryTitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .summaryItem {
-    flex-direction: column;
-    gap: 10px;
-    padding: 12px;
+    padding: 12px 15px;
   }
 
   .summaryNumber {
-    align-self: flex-start;
-    width: 25px;
-    height: 25px;
-    font-size: 0.8rem;
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
   }
 
   .summaryText {
@@ -393,8 +396,8 @@
   }
 
   .continueButton {
-    padding: 12px 24px;
-    font-size: 1rem;
+    padding: 12px 25px;
+    font-size: 0.95rem;
   }
 
   .tips {
@@ -413,23 +416,23 @@
 /* 작은 모바일 화면 */
 @media (max-width: 480px) {
   .container {
-    padding: 5px;
+    padding: 10px;
   }
 
   .main {
-    padding: 15px 5px;
+    padding: 20px 10px;
   }
 
   .title {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
 
   .subtitle {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .journalSection {
-    padding: 15px;
+    padding: 20px 15px;
   }
 
   .promptTitle {
@@ -437,44 +440,51 @@
   }
 
   .prompt {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .gratitudeInput {
-    font-size: 0.85rem;
-    padding: 10px 12px;
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+
+  .buttonGroup {
+    gap: 10px;
+    margin-top: 15px;
   }
 
   .skipButton,
   .nextButton {
-    padding: 8px 16px;
-    font-size: 0.85rem;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    min-width: 80px;
+    max-width: 120px;
   }
 
   .completeTitle {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
   }
 
   .completeText {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .summarySection {
-    padding: 15px;
+    margin-bottom: 20px;
   }
 
   .summaryTitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .summaryItem {
-    padding: 10px;
+    padding: 10px 12px;
   }
 
   .summaryNumber {
-    width: 22px;
-    height: 22px;
-    font-size: 0.75rem;
+    width: 25px;
+    height: 25px;
+    font-size: 0.8rem;
   }
 
   .summaryText {

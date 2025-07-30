@@ -49,7 +49,7 @@ export default function Home() {
           <blockquote className={styles.quote}>"{t('quote')}"</blockquote>
         </div>
 
-        <section className={styles.colorPalette}>
+        <section className={styles.emotionGrid}>
           <h2 className={styles.sectionTitle}>{t('howDoYouFeel')}</h2>
           <div className={styles.emotionGrid}>
             {emotionColors.map((emotion) => (
