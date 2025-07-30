@@ -345,12 +345,61 @@
     padding: 10px 16px;
     font-size: 0.85rem;
   }
+
+  .aiModeSelector {
+    gap: 8px;
+    margin: 10px 0;
+  }
+
+  .aiModeButton {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
 }
 
 .aiMode {
   text-align: center;
   margin-top: 10px;
   font-size: 0.9rem;
+}
+
+.aiModeSelector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+
+.aiModeButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-weight: 500;
+}
+
+.aiModeButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.aiModeButton.active {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.aiModeButton.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .hfMode {
@@ -362,8 +411,35 @@
   display: inline-block;
 }
 
+.smartMode {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-weight: 500;
+  display: inline-block;
+}
+
 .basicMode {
   background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.gptMode {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.deepseekMode {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: white;
   padding: 5px 12px;
   border-radius: 15px;
@@ -405,4 +481,39 @@
 
 .setupGuide strong {
   color: white;
+}
+
+.howItWorks {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.howItWorks h5 {
+  color: #60a5fa;
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+}
+
+.resetButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.resetButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.resetButton:active {
+  transform: translateY(0);
 }

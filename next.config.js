@@ -8,7 +8,7 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export',
+  // output: 'export', // API 라우트와 충돌하므로 주석 처리
   trailingSlash: true,
   images: {
     unoptimized: true,
