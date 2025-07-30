@@ -7,14 +7,14 @@ import PWAInstallPrompt from '../components/PWAInstallPrompt';
 
 // 감정 색상 매핑
 const emotionColors = [
-  { color: '#FF6B6B', emotionKey: 'sadness' },
-  { color: '#4ECDC4', emotionKey: 'calm' },
-  { color: '#45B7D1', emotionKey: 'anxiety' },
-  { color: '#96CEB4', emotionKey: 'gratitude' },
-  { color: '#FFEAA7', emotionKey: 'joy' },
-  { color: '#DDA0DD', emotionKey: 'loneliness' },
-  { color: '#98D8C8', emotionKey: 'hope' },
-  { color: '#F7DC6F', emotionKey: 'contentment' },
+  { emotionKey: 'sadness', icon: '😢' },
+  { emotionKey: 'calm', icon: '😌' },
+  { emotionKey: 'anxiety', icon: '😰' },
+  { emotionKey: 'gratitude', icon: '🙏' },
+  { emotionKey: 'joy', icon: '😊' },
+  { emotionKey: 'loneliness', icon: '🥺' },
+  { emotionKey: 'hope', icon: '✨' },
+  { emotionKey: 'contentment', icon: '😌' },
 ];
 
 export default function Home() {
@@ -77,15 +77,18 @@ export default function Home() {
                     ? styles.selected
                     : ''
                 }`}
-                style={{ backgroundColor: emotion.color }}
+                data-emotion={emotion.emotionKey}
                 onClick={() => handleEmotionSelect(emotion.emotionKey)}
                 aria-label={`Select ${t(
                   `emotions.${emotion.emotionKey}.name`
                 )} emotion`}
               >
-                <span className={styles.emotionLabel}>
-                  {t(`emotions.${emotion.emotionKey}.name`)}
-                </span>
+                <div className={styles.emotionContent}>
+                  <span className={styles.emotionIcon}>{emotion.icon}</span>
+                  <span className={styles.emotionLabel}>
+                    {t(`emotions.${emotion.emotionKey}.name`)}
+                  </span>
+                </div>
               </button>
             ))}
           </div>

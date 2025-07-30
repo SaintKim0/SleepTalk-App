@@ -305,28 +305,196 @@
 
 /* 모바일 반응형 */
 @media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
   .main {
-    padding: 20px 15px;
+    padding: 20px 10px;
+    max-width: 100%;
+  }
+
+  .header {
+    margin-bottom: 30px;
   }
 
   .title {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .backButton {
+    font-size: 0.9rem;
   }
 
   .journalSection {
     padding: 20px;
+    margin-bottom: 25px;
+  }
+
+  .promptTitle {
+    font-size: 1.1rem;
+  }
+
+  .prompt {
+    font-size: 1.1rem;
+  }
+
+  .gratitudeInput {
+    font-size: 0.9rem;
+    padding: 12px 15px;
   }
 
   .buttonGroup {
     flex-direction: column;
+    gap: 10px;
+  }
+
+  .skipButton,
+  .nextButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .completeTitle {
+    font-size: 1.8rem;
+  }
+
+  .completeText {
+    font-size: 1rem;
+  }
+
+  .summarySection {
+    padding: 20px;
+  }
+
+  .summaryTitle {
+    font-size: 1.2rem;
   }
 
   .summaryItem {
     flex-direction: column;
     gap: 10px;
+    padding: 12px;
   }
 
   .summaryNumber {
     align-self: flex-start;
+    width: 25px;
+    height: 25px;
+    font-size: 0.8rem;
+  }
+
+  .summaryText {
+    font-size: 0.9rem;
+  }
+
+  .continueButton {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .tips {
+    padding: 20px;
+  }
+
+  .tipsTitle {
+    font-size: 1.1rem;
+  }
+
+  .tipsList {
+    font-size: 0.9rem;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+
+  .main {
+    padding: 15px 5px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .journalSection {
+    padding: 15px;
+  }
+
+  .promptTitle {
+    font-size: 1rem;
+  }
+
+  .prompt {
+    font-size: 1rem;
+  }
+
+  .gratitudeInput {
+    font-size: 0.85rem;
+    padding: 10px 12px;
+  }
+
+  .skipButton,
+  .nextButton {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .completeTitle {
+    font-size: 1.6rem;
+  }
+
+  .completeText {
+    font-size: 0.9rem;
+  }
+
+  .summarySection {
+    padding: 15px;
+  }
+
+  .summaryTitle {
+    font-size: 1.1rem;
+  }
+
+  .summaryItem {
+    padding: 10px;
+  }
+
+  .summaryNumber {
+    width: 22px;
+    height: 22px;
+    font-size: 0.75rem;
+  }
+
+  .summaryText {
+    font-size: 0.85rem;
+  }
+
+  .continueButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .tips {
+    padding: 15px;
+  }
+
+  .tipsTitle {
+    font-size: 1rem;
+  }
+
+  .tipsList {
+    font-size: 0.85rem;
   }
 }

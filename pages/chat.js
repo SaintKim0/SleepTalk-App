@@ -4,11 +4,6 @@ import Link from 'next/link';
 import styles from '../styles/Chat.module.css';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
-  generateSleepResponse,
-  checkAPIKey,
-  setupGuide,
-} from '../utils/huggingFaceAI';
-import {
   generateSmartResponse,
   smartAIInfo,
   resetConversationContext,
@@ -27,7 +22,6 @@ export default function Chat() {
   const [isTyping, setIsTyping] = useState(false);
   const [turnCount, setTurnCount] = useState(0);
   const [showEndMessage, setShowEndMessage] = useState(false);
-  const [useHuggingFace, setUseHuggingFace] = useState(false);
   const [useGPT, setUseGPT] = useState(false);
   const [useDeepSeek, setUseDeepSeek] = useState(false);
   const [aiMode, setAiMode] = useState('smart');
@@ -43,25 +37,34 @@ export default function Chat() {
 
   useEffect(() => {
     // API 키 확인
-    setUseHuggingFace(checkAPIKey());
     setUseGPT(checkGPTAPIKey());
     setUseDeepSeek(checkDeepSeekAPIKey());
 
-    // 기본 모드 설정 (우선순위: DeepSeek > GPT > Hugging Face > Smart)
+    // 기본 모드 설정 (우선순위: DeepSeek > GPT > Smart)
+    let initialAiMode = 'smart';
     if (checkDeepSeekAPIKey()) {
-      setAiMode('deepseek');
+      initialAiMode = 'deepseek';
     } else if (checkGPTAPIKey()) {
-      setAiMode('gpt');
-    } else if (checkAPIKey()) {
-      setAiMode('huggingface');
-    } else {
-      setAiMode('smart');
+      initialAiMode = 'gpt';
     }
+    setAiMode(initialAiMode);
+
+    // AI 모드에 따른 초기 메시지 설정
+    const getInitialMessage = () => {
+      switch (initialAiMode) {
+        case 'deepseek':
+          return '안녕하세요! 저는 디피(Deepy)예요! 🧠\n\n오늘 밤 당신의 이야기를 듣고 응원해드릴게요~ 기분이 어떠신가요? 😊';
+        case 'gpt':
+          return '안녕하세요! 저는 체시(Chaty)예요! 💬\n\n오늘 밤 당신의 이야기를 듣고 함께해드릴게요~ 기분이 어떠신가요? 😊';
+        default:
+          return '안녕하세요! 저는 스마트 AI예요! 🤖\n\n오늘 밤 당신의 이야기를 듣고 도와드릴게요~ 기분이 어떠신가요? 😊';
+      }
+    };
 
     // 초기 AI 메시지
     const initialMessage = {
       id: 1,
-      text: t('initialMessage'),
+      text: getInitialMessage(),
       sender: 'ai',
       timestamp: new Date(),
     };
@@ -118,14 +121,6 @@ export default function Chat() {
                 aiResponse = await generateSmartResponse(inputMessage);
               }
               break;
-            case 'huggingface':
-              if (useHuggingFace) {
-                aiResponse = await generateSleepResponse(inputMessage);
-              } else {
-                setAiMode('smart');
-                aiResponse = await generateSmartResponse(inputMessage);
-              }
-              break;
             default:
               aiResponse = await generateSmartResponse(inputMessage);
               break;
@@ -172,18 +167,54 @@ export default function Chat() {
 
   const handleAiModeChange = (mode) => {
     setAiMode(mode);
+
+    // AI 모드에 따른 초기 메시지 설정
+    const getInitialMessage = () => {
+      switch (mode) {
+        case 'deepseek':
+          return '안녕하세요! 저는 디피(Deepy)예요! 🧠\n\n오늘 밤 당신의 이야기를 듣고 응원해드릴게요~ 기분이 어떠신가요? 😊';
+        case 'gpt':
+          return '안녕하세요! 저는 체시(Chaty)예요! 💬\n\n오늘 밤 당신의 이야기를 듣고 함께해드릴게요~ 기분이 어떠신가요? 😊';
+        default:
+          return '안녕하세요! 저는 스마트 AI예요! 🤖\n\n오늘 밤 당신의 이야기를 듣고 도와드릴게요~ 기분이 어떠신가요? 😊';
+      }
+    };
+
     // AI 모드 변경 시 대화 컨텍스트 초기화 (스마트 AI인 경우)
     if (mode === 'smart') {
       resetConversationContext();
     }
+
+    // 초기 메시지 업데이트
+    const initialMessage = {
+      id: 1,
+      text: getInitialMessage(),
+      sender: 'ai',
+      timestamp: new Date(),
+    };
+    setMessages([initialMessage]);
+    setTurnCount(0);
+    setShowEndMessage(false);
   };
 
   const handleResetConversation = () => {
+    // AI 모드에 따른 초기 메시지 설정
+    const getInitialMessage = () => {
+      switch (aiMode) {
+        case 'deepseek':
+          return '안녕하세요! 저는 디피(Deepy)예요! 🧠\n\n오늘 밤 당신의 이야기를 듣고 응원해드릴게요~ 기분이 어떠신가요? 😊';
+        case 'gpt':
+          return '안녕하세요! 저는 체시(Chaty)예요! 💬\n\n오늘 밤 당신의 이야기를 듣고 함께해드릴게요~ 기분이 어떠신가요? 😊';
+        default:
+          return '안녕하세요! 저는 스마트 AI예요! 🤖\n\n오늘 밤 당신의 이야기를 듣고 도와드릴게요~ 기분이 어떠신가요? 😊';
+      }
+    };
+
     // 대화 초기화
     setMessages([
       {
         id: 1,
-        text: t('initialMessage'),
+        text: getInitialMessage(),
         sender: 'ai',
         timestamp: new Date(),
       },
@@ -222,18 +253,7 @@ export default function Chat() {
               }`}
               onClick={() => handleAiModeChange('smart')}
             >
-              🤖 스마트 AI
-            </button>
-            <button
-              className={`${styles.aiModeButton} ${
-                aiMode === 'huggingface' ? styles.active : ''
-              } ${!useHuggingFace ? styles.disabled : ''}`}
-              onClick={() =>
-                useHuggingFace && handleAiModeChange('huggingface')
-              }
-              disabled={!useHuggingFace}
-            >
-              🧠 Hugging Face AI
+              🤖
             </button>
             <button
               className={`${styles.aiModeButton} ${
@@ -242,7 +262,7 @@ export default function Chat() {
               onClick={() => useDeepSeek && handleAiModeChange('deepseek')}
               disabled={!useDeepSeek}
             >
-              🧠 DeepSeek AI
+              🧠
             </button>
             <button
               className={`${styles.aiModeButton} ${
@@ -251,18 +271,16 @@ export default function Chat() {
               onClick={() => useGPT && handleAiModeChange('gpt')}
               disabled={!useGPT}
             >
-              🧠 GPT AI
+              💬
             </button>
           </div>
 
           {/* AI 모드 표시 */}
           <div className={styles.aiMode}>
             {aiMode === 'deepseek' && useDeepSeek ? (
-              <span className={styles.deepseekMode}>🧠 DeepSeek AI</span>
+              <span className={styles.deepseekMode}>🧠 디피(Deepy)</span>
             ) : aiMode === 'gpt' && useGPT ? (
-              <span className={styles.gptMode}>🧠 GPT AI</span>
-            ) : aiMode === 'huggingface' && useHuggingFace ? (
-              <span className={styles.hfMode}>🧠 Hugging Face AI</span>
+              <span className={styles.gptMode}>🧠 체시(Chaty)</span>
             ) : (
               <span className={styles.smartMode}>🤖 스마트 AI</span>
             )}
@@ -352,77 +370,6 @@ export default function Chat() {
               <li key={index}>{tip}</li>
             ))}
           </ul>
-
-          {/* AI 시스템 정보 */}
-          {aiMode === 'smart' ? (
-            <div className={styles.setupGuide}>
-              <h4>{smartAIInfo.title}</h4>
-              <p>{smartAIInfo.description}</p>
-              <ul>
-                {smartAIInfo.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-              <div className={styles.howItWorks}>
-                <h5>작동 방식:</h5>
-                <ul>
-                  {smartAIInfo.howItWorks.map((step, index) => (
-                    <li key={index}>{step}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ) : aiMode === 'deepseek' ? (
-            <div className={styles.setupGuide}>
-              <h4>{deepseekAIInfo.title}</h4>
-              <p>{deepseekAIInfo.description}</p>
-              <ul>
-                {deepseekAIInfo.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-              <div className={styles.howItWorks}>
-                <h5>비용 정보:</h5>
-                <ul>
-                  <li>{deepseekAIInfo.setupGuide.costs.deepseek}</li>
-                  <li>{deepseekAIInfo.setupGuide.costs.note}</li>
-                </ul>
-              </div>
-            </div>
-          ) : aiMode === 'gpt' ? (
-            <div className={styles.setupGuide}>
-              <h4>{gptAIInfo.title}</h4>
-              <p>{gptAIInfo.description}</p>
-              <ul>
-                {gptAIInfo.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-              <div className={styles.howItWorks}>
-                <h5>비용 정보:</h5>
-                <ul>
-                  <li>{gptAIInfo.setupGuide.costs.gpt35}</li>
-                  <li>{gptAIInfo.setupGuide.costs.gpt4}</li>
-                  <li>{gptAIInfo.setupGuide.costs.note}</li>
-                </ul>
-              </div>
-            </div>
-          ) : (
-            !useHuggingFace && (
-              <div className={styles.setupGuide}>
-                <h4>🤖 Hugging Face AI 사용하기</h4>
-                <p>더 스마트한 AI 응답을 원하시나요?</p>
-                <ul>
-                  {setupGuide.steps.map((step, index) => (
-                    <li key={index}>{step}</li>
-                  ))}
-                </ul>
-                <p>
-                  <strong>무료 한도:</strong> {setupGuide.limits.free}
-                </p>
-              </div>
-            )
-          )}
         </div>
       </main>
     </div>

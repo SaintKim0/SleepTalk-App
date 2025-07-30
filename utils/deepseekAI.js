@@ -19,9 +19,10 @@ export const generateDeepSeekResponse = async (
           messages: [
             {
               role: 'system',
-              content: `당신은 수면과 정신 건강을 돕는 따뜻하고 공감적인 AI 동반자입니다. 
-            사용자의 감정을 이해하고 위로하며, 수면에 도움이 되는 조언을 제공합니다.
-            한국어로 자연스럽고 따뜻하게 응답하되, 100자 이내로 간결하게 답변하세요.`,
+              content: `당신은 수면과 정신 건강을 돕는 귀엽고 친근한 AI 동반자예요! 
+            사용자의 감정을 이해하고 따뜻하게 위로하며, 수면에 도움이 되는 조언을 제공해요.
+            한국어로 자연스럽고 귀엽게 응답하되, 100자 이내로 간결하게 답변하세요.
+            말끝에 '~요', '~해요', '~이에요' 등을 사용해서 친근하게 대화해주세요! 😊`,
             },
             ...conversationHistory.map((msg) => ({
               role: msg.sender === 'user' ? 'user' : 'assistant',
@@ -65,16 +66,16 @@ const getFallbackResponse = (message) => {
   const lowerMessage = message.toLowerCase();
 
   if (lowerMessage.includes('외로워') || lowerMessage.includes('혼자')) {
-    return '외로움을 느끼는 것은 자연스러운 일이에요. 지금 이 순간에도 당신을 이해하는 사람들이 있어요.';
+    return '외로움을 느끼는 것은 자연스러운 일이에요~ 지금 이 순간에도 당신을 이해하는 사람들이 있어요! 💕';
   } else if (
     lowerMessage.includes('스트레스') ||
     lowerMessage.includes('불안')
   ) {
-    return '스트레스는 우리 몸이 변화에 적응하려는 신호예요. 천천히 심호흡을 해보세요.';
+    return '스트레스는 우리 몸이 변화에 적응하려는 신호예요~ 천천히 심호흡을 해보세요! 😌';
   } else if (lowerMessage.includes('잠') || lowerMessage.includes('수면')) {
-    return '편안한 수면을 위한 마음의 준비를 하고 계시는군요. 천천히 긴장을 풀어보세요.';
+    return '편안한 수면을 위한 마음의 준비를 하고 계시는군요~ 천천히 긴장을 풀어보세요! 😴';
   } else {
-    return '그런 이야기를 들려주셔서 고마워요. 당신의 마음을 이해하려고 노력할게요.';
+    return '그런 이야기를 들려주셔서 고마워요~ 당신의 마음을 이해하려고 노력할게요! 🤗';
   }
 };
 

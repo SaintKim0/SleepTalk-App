@@ -320,40 +320,207 @@
 
 /* 모바일 반응형 */
 @media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
   .main {
-    padding: 15px;
+    padding: 15px 10px;
+    height: calc(100vh - 20px);
+  }
+
+  .header {
+    margin-bottom: 15px;
   }
 
   .title {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
   }
 
   .turnCounter {
-    font-size: 0.8rem;
-    padding: 4px 10px;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+
+  .backButton {
+    font-size: 0.9rem;
+  }
+
+  .chatContainer {
+    border-radius: 15px;
+  }
+
+  .messagesContainer {
+    padding: 15px;
+    gap: 10px;
   }
 
   .messageContent {
-    max-width: 85%;
+    max-width: 90%;
+  }
+
+  .messageText {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .messageTime {
+    font-size: 0.7rem;
   }
 
   .inputContainer {
-    padding: 15px;
+    padding: 12px;
+  }
+
+  .messageInput {
+    font-size: 0.9rem;
+    padding: 8px 12px;
   }
 
   .sendButton {
-    padding: 10px 16px;
-    font-size: 0.85rem;
+    padding: 8px 14px;
+    font-size: 0.8rem;
   }
 
   .aiModeSelector {
-    gap: 8px;
-    margin: 10px 0;
+    gap: 12px;
+    margin: 15px 0;
   }
 
   .aiModeButton {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+    padding: 12px;
+  }
+
+  .endMessage {
+    padding: 20px;
+  }
+
+  .endTitle {
+    font-size: 1.2rem;
+  }
+
+  .endText {
+    font-size: 0.9rem;
+  }
+
+  .sleepButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .tips {
+    padding: 15px;
+  }
+
+  .tipsTitle {
+    font-size: 1rem;
+  }
+
+  .tipsList {
+    font-size: 0.85rem;
+  }
+
+  .setupGuide {
+    padding: 15px;
+  }
+
+  .setupGuide h4 {
+    font-size: 1rem;
+  }
+
+  .setupGuide p {
+    font-size: 0.85rem;
+  }
+
+  .setupGuide ul {
+    font-size: 0.8rem;
+  }
+
+  .resetButton {
     padding: 6px 12px;
     font-size: 0.8rem;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+
+  .main {
+    padding: 10px 5px;
+    height: calc(100vh - 10px);
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  .messagesContainer {
+    padding: 10px;
+  }
+
+  .messageContent {
+    max-width: 95%;
+  }
+
+  .messageText {
+    font-size: 0.85rem;
+  }
+
+  .inputContainer {
+    padding: 10px;
+  }
+
+  .messageInput {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+
+  .sendButton {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .aiModeSelector {
+    gap: 10px;
+    margin: 12px 0;
+  }
+
+  .aiModeButton {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    padding: 10px;
+  }
+
+  .endMessage {
+    padding: 15px;
+  }
+
+  .endTitle {
+    font-size: 1.1rem;
+  }
+
+  .endText {
+    font-size: 0.85rem;
+  }
+
+  .sleepButton {
+    padding: 8px 16px;
+    font-size: 0.85rem;
   }
 }
 
@@ -366,40 +533,47 @@
 .aiModeSelector {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin: 15px 0;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: nowrap;
 }
 
 .aiModeButton {
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
-  font-weight: 500;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .aiModeButton:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .aiModeButton.active {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .aiModeButton.disabled {
   opacity: 0.5;
   cursor: not-allowed;
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .hfMode {

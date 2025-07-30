@@ -315,33 +315,208 @@
 
 /* 모바일 반응형 */
 @media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
   .main {
-    padding: 20px 15px;
+    padding: 20px 10px;
+    max-width: 100%;
+  }
+
+  .header {
+    margin-bottom: 30px;
   }
 
   .title {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .backButton {
+    font-size: 0.9rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
   }
 
   .soundGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .timerGrid {
     gap: 10px;
   }
 
+  .soundCard {
+    padding: 15px;
+  }
+
+  .soundIcon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .soundName {
+    font-size: 1rem;
+  }
+
+  .soundDescription {
+    font-size: 0.85rem;
+  }
+
+  .timerGrid {
+    gap: 8px;
+  }
+
   .timerButton {
-    padding: 10px 16px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+
+  .startButton {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .startText {
     font-size: 0.9rem;
   }
 
+  .tips {
+    padding: 15px;
+  }
+
+  .tipsTitle {
+    font-size: 1.1rem;
+  }
+
+  .tipsList {
+    font-size: 0.85rem;
+  }
+
+  /* 수면 모드 화면 */
   .sleepTitle {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .sleepText {
+    font-size: 1rem;
+    margin-bottom: 30px;
   }
 
   .timerText {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+  }
+
+  .stopButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+  }
+
+  .sleepTips {
+    padding: 15px;
+  }
+
+  .sleepTips p {
+    font-size: 0.9rem;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+
+  .main {
+    padding: 15px 5px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+  }
+
+  .soundGrid {
+    gap: 8px;
+  }
+
+  .soundCard {
+    padding: 12px;
+  }
+
+  .soundIcon {
+    font-size: 1.8rem;
+  }
+
+  .soundName {
+    font-size: 0.9rem;
+  }
+
+  .soundDescription {
+    font-size: 0.8rem;
+  }
+
+  .timerButton {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .startButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .startText {
+    font-size: 0.85rem;
+  }
+
+  .tips {
+    padding: 12px;
+  }
+
+  .tipsTitle {
+    font-size: 1rem;
+  }
+
+  .tipsList {
+    font-size: 0.8rem;
+  }
+
+  /* 수면 모드 화면 */
+  .sleepTitle {
+    font-size: 1.6rem;
+  }
+
+  .sleepText {
+    font-size: 0.9rem;
+  }
+
+  .timerText {
+    font-size: 1.8rem;
+  }
+
+  .stopButton {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .sleepTips {
+    padding: 12px;
+  }
+
+  .sleepTips p {
+    font-size: 0.85rem;
   }
 }
