@@ -6,6 +6,10 @@ export const generateGPTResponse = async (
   conversationHistory = []
 ) => {
   try {
+    // 타임아웃 설정 (10초)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
     const response = await fetch('/api/gpt', {
       method: 'POST',
       headers: {
@@ -17,7 +21,10 @@ export const generateGPTResponse = async (
         maxTokens: 150,
         temperature: 0.7,
       }),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`GPT API 에러: ${response.status}`);
@@ -26,6 +33,10 @@ export const generateGPTResponse = async (
     const data = await response.json();
     return data.response;
   } catch (error) {
+    if (error.name === 'AbortError') {
+      console.error('GPT API 타임아웃:', error);
+      return '죄송해요~ 응답이 늦어지고 있어요. 잠시 후 다시 시도해보세요! 😅';
+    }
     console.error('GPT API 호출 에러:', error);
     return getFallbackResponse(message);
   }

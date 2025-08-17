@@ -62,15 +62,15 @@
 
 .soundGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
 }
 
 .soundCard {
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 15px;
-  padding: 20px;
+  padding: 18px 15px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -91,18 +91,18 @@
 }
 
 .soundIcon {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 2.2rem;
+  margin-bottom: 8px;
 }
 
 .soundName {
-  font-size: 1.1rem;
-  margin: 0 0 8px 0;
+  font-size: 1rem;
+  margin: 0 0 6px 0;
   font-weight: 500;
 }
 
 .soundDescription {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   opacity: 0.8;
   margin: 0;
   line-height: 1.3;
@@ -449,23 +449,24 @@
   }
 
   .soundGrid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 8px;
   }
 
   .soundCard {
-    padding: 12px;
+    padding: 10px 8px;
   }
 
   .soundIcon {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .soundName {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .soundDescription {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .timerButton {

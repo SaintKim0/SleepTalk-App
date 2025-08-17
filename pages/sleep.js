@@ -20,6 +20,12 @@ export default function Sleep() {
     { id: 'heartbeat', icon: '💓' },
     { id: 'whiteNoise', icon: '🔇' },
     { id: 'crickets', icon: '🦗' },
+    { id: 'jazz', icon: '🎷' },
+    { id: 'classical', icon: '🎻' },
+    { id: 'lullaby', icon: '🎵' },
+    { id: 'piano', icon: '🎹' },
+    { id: 'ambient', icon: '🎼' },
+    { id: 'nature', icon: '🌿' },
   ];
 
   const timers = [10, 15, 30, 60];
@@ -30,8 +36,54 @@ export default function Sleep() {
       interval = setInterval(() => {
         setTimeRemaining((prev) => {
           if (prev <= 1) {
+            console.log('타이머 만료 - 수면 모드 자동 종료');
             setIsPlaying(false);
             setIsDimmed(false);
+            
+            // 타이머 만료 시 오디오 정리
+            if (audioRef.current) {
+              try {
+                if (audioRef.current.pause) {
+                  audioRef.current.pause();
+                  audioRef.current.currentTime = 0;
+                  audioRef.current.src = '';
+                } else if (audioRef.current.nodes) {
+                  const context = audioRef.current.context;
+                  const nodes = audioRef.current.nodes;
+                  
+                  nodes.forEach((node) => {
+                    try {
+                      if (node.gainNode) {
+                        node.gainNode.gain.setValueAtTime(0, context.currentTime);
+                        node.gainNode.disconnect();
+                      }
+                      if (node.oscillator && node.oscillator.stop) {
+                        node.oscillator.stop();
+                        node.oscillator.disconnect();
+                      }
+                      if (node.filter) {
+                        node.filter.disconnect();
+                      }
+                    } catch (e) {
+                      console.log('타이머 만료 - 노드 정리 중 오류:', e);
+                    }
+                  });
+                  
+                  if (context && context.state !== 'closed') {
+                    try {
+                      context.close();
+                    } catch (e) {
+                      console.log('타이머 만료 - AudioContext 정리 중 오류:', e);
+                    }
+                  }
+                }
+              } catch (error) {
+                console.error('타이머 만료 - 오디오 정리 중 오류:', error);
+              } finally {
+                audioRef.current = null;
+              }
+            }
+            
             return null;
           }
           return prev - 1;
@@ -41,14 +93,106 @@ export default function Sleep() {
     return () => clearInterval(interval);
   }, [isPlaying, timeRemaining]);
 
+  // 컴포넌트 언마운트 시 오디오 정리
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        try {
+          if (audioRef.current.pause) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            audioRef.current.src = '';
+          } else if (audioRef.current.nodes) {
+            const context = audioRef.current.context;
+            const nodes = audioRef.current.nodes;
+            
+            nodes.forEach((node) => {
+              try {
+                if (node.gainNode) {
+                  node.gainNode.gain.setValueAtTime(0, context.currentTime);
+                  node.gainNode.disconnect();
+                }
+                if (node.oscillator && node.oscillator.stop) {
+                  node.oscillator.stop();
+                  node.oscillator.disconnect();
+                }
+                if (node.filter) {
+                  node.filter.disconnect();
+                }
+              } catch (e) {
+                console.log('언마운트 시 노드 정리 중 오류:', e);
+              }
+            });
+            
+            if (context && context.state !== 'closed') {
+              try {
+                context.close();
+              } catch (e) {
+                console.log('언마운트 시 AudioContext 정리 중 오류:', e);
+              }
+            }
+          }
+        } catch (error) {
+          console.error('언마운트 시 오디오 정리 중 오류:', error);
+        } finally {
+          audioRef.current = null;
+        }
+      }
+    };
+  }, []);
+
   const handleStartSleep = () => {
     if (!selectedSound) return;
 
-    setIsPlaying(true);
-    setTimeRemaining(selectedTimer * 60);
-    setIsDimmed(true);
+    console.log('수면 모드 시작 - 새로운 오디오 재생');
 
-    // 실제 오디오 파일 재생 시도
+    // 이전 오디오 완전 정지
+    if (audioRef.current) {
+      try {
+        if (audioRef.current.pause) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+          audioRef.current.src = '';
+          audioRef.current.load();
+        } else if (audioRef.current.nodes) {
+          const context = audioRef.current.context;
+          const nodes = audioRef.current.nodes;
+          
+          nodes.forEach((node) => {
+            try {
+              if (node.gainNode) {
+                node.gainNode.gain.cancelScheduledValues(context.currentTime);
+                node.gainNode.gain.setValueAtTime(0, context.currentTime);
+                node.gainNode.disconnect();
+              }
+              if (node.oscillator && node.oscillator.stop) {
+                node.oscillator.stop();
+                node.oscillator.disconnect();
+              }
+              if (node.filter) {
+                node.filter.disconnect();
+              }
+            } catch (e) {
+              console.log('이전 노드 정리 중 오류:', e);
+            }
+          });
+          
+          if (context && context.state !== 'closed') {
+            try {
+              context.close();
+            } catch (e) {
+              console.log('이전 AudioContext 정리 중 오류:', e);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('이전 오디오 정지 중 오류:', error);
+      } finally {
+        audioRef.current = null;
+      }
+    }
+
+    // 오디오 재생 먼저 시작
     try {
       const audio = new Audio();
       audio.src = `/sounds/${selectedSound.id}.mp3`;
@@ -59,15 +203,10 @@ export default function Sleep() {
         audio
           .play()
           .then(() => {
-            console.log(
-              `Playing ${t(
-                `sounds.${selectedSound.id}.name`
-              )} for ${selectedTimer} minutes`
-            );
+            console.log(`Playing ${t(`sounds.${selectedSound.id}.name`)} for ${selectedTimer} minutes`);
           })
           .catch((error) => {
             console.error('오디오 재생 실패:', error);
-            // 오디오 파일이 없을 경우 브라우저에서 생성
             createBrowserAudio();
           });
       });
@@ -83,26 +222,33 @@ export default function Sleep() {
       createBrowserAudio();
     }
 
+    // 상태 변경
+    setIsPlaying(true);
+    setTimeRemaining(selectedTimer * 60);
+    setIsDimmed(true);
+
+
     // 브라우저에서 오디오 생성하는 함수
     function createBrowserAudio() {
+      // 수면 모드가 중단되면 오디오 생성하지 않음
+      if (!isPlaying) {
+        console.log('수면 모드가 중단되어 오디오 생성을 중단합니다.');
+        return;
+      }
+      
       try {
-        const audioContext = new (window.AudioContext ||
-          window.webkitAudioContext)();
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         let audioNodes = [];
 
         switch (selectedSound.id) {
           case 'rain':
-            // 빗소리 - 여러 주파수의 노이즈
             for (let i = 0; i < 3; i++) {
               const osc = audioContext.createOscillator();
               const gain = audioContext.createGain();
               const filter = audioContext.createBiquadFilter();
 
               osc.type = 'sawtooth';
-              osc.frequency.setValueAtTime(
-                100 + i * 50,
-                audioContext.currentTime
-              );
+              osc.frequency.setValueAtTime(100 + i * 50, audioContext.currentTime);
 
               filter.type = 'lowpass';
               filter.frequency.setValueAtTime(800, audioContext.currentTime);
@@ -119,7 +265,6 @@ export default function Sleep() {
             break;
 
           case 'ocean':
-            // 바다 소리 - 긴 파도 소리
             const osc1 = audioContext.createOscillator();
             const gain1 = audioContext.createGain();
             const filter1 = audioContext.createBiquadFilter();
@@ -137,15 +282,10 @@ export default function Sleep() {
             gain1.connect(audioContext.destination);
 
             osc1.start();
-            audioNodes.push({
-              oscillator: osc1,
-              gainNode: gain1,
-              filter: filter1,
-            });
+            audioNodes.push({ oscillator: osc1, gainNode: gain1, filter: filter1 });
             break;
 
           case 'forest':
-            // 숲 소리 - 새소리와 바람소리
             const osc2 = audioContext.createOscillator();
             const gain2 = audioContext.createGain();
 
@@ -162,7 +302,6 @@ export default function Sleep() {
             break;
 
           case 'heartbeat':
-            // 심장박동 - 규칙적인 박동
             const osc3 = audioContext.createOscillator();
             const gain3 = audioContext.createGain();
 
@@ -179,13 +318,8 @@ export default function Sleep() {
             break;
 
           case 'whiteNoise':
-            // 화이트 노이즈
             const bufferSize = audioContext.sampleRate * 2;
-            const buffer = audioContext.createBuffer(
-              1,
-              bufferSize,
-              audioContext.sampleRate
-            );
+            const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
             const output = buffer.getChannelData(0);
 
             for (let i = 0; i < bufferSize; i++) {
@@ -208,7 +342,6 @@ export default function Sleep() {
             break;
 
           case 'crickets':
-            // 귀뚜라미 소리
             const osc5 = audioContext.createOscillator();
             const gain5 = audioContext.createGain();
 
@@ -224,8 +357,135 @@ export default function Sleep() {
             audioNodes.push({ oscillator: osc5, gainNode: gain5 });
             break;
 
+          case 'jazz':
+            for (let i = 0; i < 2; i++) {
+              const osc = audioContext.createOscillator();
+              const gain = audioContext.createGain();
+              const filter = audioContext.createBiquadFilter();
+
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(150 + i * 100, audioContext.currentTime);
+
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(600, audioContext.currentTime);
+
+              gain.gain.setValueAtTime(0.03, audioContext.currentTime);
+
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioContext.destination);
+
+              osc.start();
+              audioNodes.push({ oscillator: osc, gainNode: gain, filter });
+            }
+            break;
+
+          case 'classical':
+            for (let i = 0; i < 3; i++) {
+              const osc = audioContext.createOscillator();
+              const gain = audioContext.createGain();
+              const filter = audioContext.createBiquadFilter();
+
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(200 + i * 80, audioContext.currentTime);
+
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(800, audioContext.currentTime);
+
+              gain.gain.setValueAtTime(0.04, audioContext.currentTime);
+
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioContext.destination);
+
+              osc.start();
+              audioNodes.push({ oscillator: osc, gainNode: gain, filter });
+            }
+            break;
+
+          case 'lullaby':
+            for (let i = 0; i < 2; i++) {
+              const osc = audioContext.createOscillator();
+              const gain = audioContext.createGain();
+
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(180 + i * 120, audioContext.currentTime);
+
+              gain.gain.setValueAtTime(0.05, audioContext.currentTime);
+
+              osc.connect(gain);
+              gain.connect(audioContext.destination);
+
+              osc.start();
+              audioNodes.push({ oscillator: osc, gainNode: gain });
+            }
+            break;
+
+          case 'piano':
+            for (let i = 0; i < 2; i++) {
+              const osc = audioContext.createOscillator();
+              const gain = audioContext.createGain();
+              const filter = audioContext.createBiquadFilter();
+
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(220 + i * 110, audioContext.currentTime);
+
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(1000, audioContext.currentTime);
+
+              gain.gain.setValueAtTime(0.04, audioContext.currentTime);
+
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioContext.destination);
+
+              osc.start();
+              audioNodes.push({ oscillator: osc, gainNode: gain, filter });
+            }
+            break;
+
+          case 'ambient':
+            for (let i = 0; i < 3; i++) {
+              const osc = audioContext.createOscillator();
+              const gain = audioContext.createGain();
+              const filter = audioContext.createBiquadFilter();
+
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(120 + i * 60, audioContext.currentTime);
+
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(500, audioContext.currentTime);
+
+              gain.gain.setValueAtTime(0.03, audioContext.currentTime);
+
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioContext.destination);
+
+              osc.start();
+              audioNodes.push({ oscillator: osc, gainNode: gain, filter });
+            }
+            break;
+
+          case 'nature':
+            for (let i = 0; i < 2; i++) {
+              const osc = audioContext.createOscillator();
+              const gain = audioContext.createGain();
+
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(160 + i * 90, audioContext.currentTime);
+
+              gain.gain.setValueAtTime(0.06, audioContext.currentTime);
+
+              osc.connect(gain);
+              gain.connect(audioContext.destination);
+
+              osc.start();
+              audioNodes.push({ oscillator: osc, gainNode: gain });
+            }
+            break;
+
           default:
-            // 기본 소리
             const osc6 = audioContext.createOscillator();
             const gain6 = audioContext.createGain();
 
@@ -241,45 +501,115 @@ export default function Sleep() {
             audioNodes.push({ oscillator: osc6, gainNode: gain6 });
         }
 
-        audioRef.current = { context: audioContext, nodes: audioNodes };
-        console.log(
-          `Playing ${t(
-            `sounds.${selectedSound.id}.name`
-          )} for ${selectedTimer} minutes`
-        );
+        if (isPlaying) {
+          audioRef.current = { context: audioContext, nodes: audioNodes };
+          console.log(`Playing ${t(`sounds.${selectedSound.id}.name`)} for ${selectedTimer} minutes`);
+        }
       } catch (error) {
         console.error('브라우저 오디오 생성 실패:', error);
-        console.log(
-          `Playing ${t(
-            `sounds.${selectedSound.id}.name`
-          )} for ${selectedTimer} minutes`
-        );
+        if (isPlaying) {
+          console.log(`Playing ${t(`sounds.${selectedSound.id}.name`)} for ${selectedTimer} minutes`);
+        }
       }
-    }
-  };
+         }
+   };
 
   const handleStopSleep = () => {
+    console.log('수면 모드 중단 - 모든 오디오 즉시 종료');
+    
+    // 상태 먼저 변경 (새로운 오디오 시작 방지)
     setIsPlaying(false);
     setTimeRemaining(null);
     setIsDimmed(false);
 
-    // 오디오 정지
+    // 모든 오디오 즉시 종료 (파일 찾지 않고 바로 정리)
     if (audioRef.current) {
-      if (audioRef.current.pause) {
-        // Audio 객체인 경우
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      } else if (audioRef.current.nodes) {
-        // Web Audio API 노드인 경우
-        audioRef.current.nodes.forEach((node) => {
-          if (node.oscillator && node.oscillator.stop) {
-            node.oscillator.stop();
+      try {
+        if (audioRef.current.pause) {
+          // Audio 객체 즉시 정지
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+          audioRef.current.src = '';
+          audioRef.current.load();
+        } else if (audioRef.current.nodes) {
+          // Web Audio API 노드 즉시 정지
+          const context = audioRef.current.context;
+          const nodes = audioRef.current.nodes;
+          
+          nodes.forEach((node) => {
+            try {
+              // 볼륨 즉시 0으로 설정
+              if (node.gainNode) {
+                node.gainNode.gain.cancelScheduledValues(context.currentTime);
+                node.gainNode.gain.setValueAtTime(0, context.currentTime);
+                node.gainNode.disconnect();
+              }
+              // 오실레이터 즉시 정지
+              if (node.oscillator && node.oscillator.stop) {
+                node.oscillator.stop();
+                node.oscillator.disconnect();
+              }
+              // 필터 노드 분리
+              if (node.filter) {
+                node.filter.disconnect();
+              }
+            } catch (e) {
+              console.log('노드 즉시 정지 중 오류:', e);
+            }
+          });
+          
+          // AudioContext 즉시 종료
+          if (context && context.state !== 'closed') {
+            try {
+              context.close();
+            } catch (e) {
+              console.log('AudioContext 즉시 종료 중 오류:', e);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('오디오 즉시 정지 중 오류:', error);
+      } finally {
+        audioRef.current = null;
+      }
+    }
+
+    // 브라우저의 모든 오디오 강제 정지
+    try {
+      const allAudios = document.querySelectorAll('audio');
+      allAudios.forEach((audio) => {
+        try {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.src = '';
+          audio.load();
+        } catch (e) {
+          console.log('HTML Audio 요소 즉시 정지 중 오류:', e);
+        }
+      });
+    } catch (e) {
+      console.log('브라우저 전체 오디오 즉시 정지 중 오류:', e);
+    }
+
+    // 전역 오디오 컨텍스트도 모두 정리
+    try {
+      if (window.__audioContexts) {
+        window.__audioContexts.forEach((ctx) => {
+          if (ctx && ctx.state !== 'closed') {
+            try {
+              ctx.close();
+            } catch (e) {
+              console.log('전역 AudioContext 정리 중 오류:', e);
+            }
           }
         });
-        audioRef.current.context.close();
+        window.__audioContexts = [];
       }
-      audioRef.current = null;
+    } catch (e) {
+      console.log('전역 오디오 컨텍스트 정리 중 오류:', e);
     }
+
+    console.log('수면 모드 중단 완료 - 모든 오디오 종료됨');
   };
 
   const formatTime = (seconds) => {

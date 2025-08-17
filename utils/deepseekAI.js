@@ -6,6 +6,10 @@ export const generateDeepSeekResponse = async (
   conversationHistory = []
 ) => {
   try {
+    // 타임아웃 설정 (10초)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
     const response = await fetch(
       'https://api.deepseek.com/v1/chat/completions',
       {
@@ -36,11 +40,14 @@ export const generateDeepSeekResponse = async (
           max_tokens: 150,
           temperature: 0.7,
         }),
+        signal: controller.signal,
       }
     );
 
+    clearTimeout(timeoutId);
+
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json().catch(() => ({}));
       console.error('DeepSeek API 에러:', errorData);
       throw new Error(`DeepSeek API 에러: ${response.status}`);
     }
@@ -48,6 +55,10 @@ export const generateDeepSeekResponse = async (
     const data = await response.json();
     return data.choices[0].message.content.trim();
   } catch (error) {
+    if (error.name === 'AbortError') {
+      console.error('DeepSeek API 타임아웃:', error);
+      return '죄송해요~ 응답이 늦어지고 있어요. 잠시 후 다시 시도해보세요! 😅';
+    }
     console.error('DeepSeek API 호출 에러:', error);
     return getFallbackResponse(message);
   }

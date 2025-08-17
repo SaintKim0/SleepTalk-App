@@ -35,6 +35,23 @@ export default function Chat() {
     scrollToBottom();
   }, [messages]);
 
+  // 메시지 포트 오류 방지
+  useEffect(() => {
+    const handleUnhandledRejection = (event) => {
+      if (event.reason && event.reason.message && 
+          event.reason.message.includes('message port closed')) {
+        event.preventDefault();
+        console.log('메시지 포트 오류가 무시되었습니다.');
+      }
+    };
+
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+    
+    return () => {
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, []);
+
   useEffect(() => {
     // API 키 확인
     setUseGPT(checkGPTAPIKey());
@@ -127,9 +144,21 @@ export default function Chat() {
           }
         } catch (error) {
           console.error('AI 응답 생성 에러:', error);
-          // 에러 시 스마트 AI로 폴백
-          setAiMode('smart');
-          aiResponse = await generateSmartResponse(inputMessage);
+          
+          // 메시지 포트 오류는 무시
+          if (error.message && error.message.includes('message port closed')) {
+            console.log('메시지 포트 오류 무시됨');
+            aiResponse = '잠시 후 다시 시도해보세요! 😊';
+          } else {
+            // 에러 시 스마트 AI로 폴백
+            setAiMode('smart');
+            try {
+              aiResponse = await generateSmartResponse(inputMessage);
+            } catch (fallbackError) {
+              console.error('스마트 AI 폴백 에러:', fallbackError);
+              aiResponse = '죄송해요~ 잠시 문제가 생겼어요. 잠시 후 다시 시도해보세요! 😅';
+            }
+          }
         }
       }
 
@@ -245,7 +274,7 @@ export default function Chat() {
             {t('turn', { current: turnCount, total: 5 })}
           </div>
 
-          {/* AI 모드 선택 */}
+          {/* AI 모드 선택 및 초기화 버튼 */}
           <div className={styles.aiModeSelector}>
             <button
               className={`${styles.aiModeButton} ${
@@ -273,6 +302,14 @@ export default function Chat() {
             >
               💬
             </button>
+            {/* 대화 초기화 버튼을 AI 모드 선택 옆으로 이동 */}
+            <button
+              className={styles.resetButtonSmall}
+              onClick={handleResetConversation}
+              title="대화 초기화"
+            >
+              🔄
+            </button>
           </div>
 
           {/* AI 모드 표시 */}
@@ -285,15 +322,6 @@ export default function Chat() {
               <span className={styles.smartMode}>🤖 스마트 AI</span>
             )}
           </div>
-
-          {/* 대화 초기화 버튼 */}
-          <button
-            className={styles.resetButton}
-            onClick={handleResetConversation}
-            title="대화 초기화"
-          >
-            🔄 새로 시작
-          </button>
         </div>
 
         <div className={styles.chatContainer}>
