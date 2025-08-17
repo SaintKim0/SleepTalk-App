@@ -43,7 +43,7 @@
   .messagesContainer {
     padding: 15px;
     padding-bottom: 5px;
-    min-height: 180px;
+    min-height: 220px;
   }
   
   .inputContainer {
@@ -135,7 +135,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  min-height: 250px;
+  min-height: 300px;
 }
 
 .message {
@@ -444,15 +444,15 @@
   }
 
   .aiModeSelector {
-    gap: 12px;
-    margin: 15px 0;
+    gap: 8px;
+    margin: 8px 0;
   }
 
   .aiModeButton {
-    width: 50px;
-    height: 50px;
-    font-size: 1.3rem;
-    padding: 12px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    padding: 6px 8px;
   }
 
   .endMessage {
@@ -536,7 +536,7 @@
   .messagesContainer {
     padding: 10px;
     padding-bottom: 5px;
-    min-height: 150px;
+    min-height: 200px;
   }
 
   .messageContent {
@@ -563,15 +563,15 @@
   }
 
   .aiModeSelector {
-    gap: 10px;
-    margin: 12px 0;
+    gap: 6px;
+    margin: 6px 0;
   }
 
   .aiModeButton {
-    width: 45px;
-    height: 45px;
-    font-size: 1.2rem;
-    padding: 10px;
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+    padding: 5px 6px;
   }
 
   .resetButtonSmall {
@@ -601,16 +601,16 @@
 
 .aiMode {
   text-align: center;
-  margin-top: 8px;
-  font-size: 0.9rem;
+  margin-top: 5px;
+  font-size: 0.8rem;
 }
 
 .aiModeSelector {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
-  margin: 15px 0;
+  gap: 10px;
+  margin: 10px 0;
   flex-wrap: nowrap;
   position: relative;
 }
@@ -619,18 +619,18 @@
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   color: white;
-  padding: 15px;
-  border-radius: 50%;
-  font-size: 1.5rem;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .aiModeButton:hover:not(:disabled) {
@@ -640,10 +640,10 @@
 }
 
 .aiModeButton.active {
-  background: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-color: rgba(255, 255, 255, 0.8);
-  transform: scale(1.1);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .aiModeButton.disabled {
