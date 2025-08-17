@@ -13,6 +13,18 @@
   .main {
     padding: 10px;
     height: 100vh;
+    min-height: 100vh;
+  }
+  
+  /* 키보드가 올라올 때를 대비한 조정 */
+  @media (max-height: 600px) {
+    .tips {
+      display: none;
+    }
+    
+    .messagesContainer {
+      min-height: 120px;
+    }
   }
   
   .header {
@@ -31,7 +43,7 @@
   .messagesContainer {
     padding: 15px;
     padding-bottom: 5px;
-    min-height: 200px;
+    min-height: 180px;
   }
   
   .inputContainer {
@@ -332,6 +344,8 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .tipsTitle {
@@ -416,6 +430,7 @@
 
   .inputContainer {
     padding: 12px;
+    margin-bottom: 10px;
   }
 
   .messageInput {
@@ -460,6 +475,7 @@
   .tips {
     padding: 8px;
     margin-top: 8px;
+    margin-bottom: 25px;
   }
 
   .tipsTitle {
@@ -520,7 +536,7 @@
   .messagesContainer {
     padding: 10px;
     padding-bottom: 5px;
-    min-height: 180px;
+    min-height: 150px;
   }
 
   .messageContent {
@@ -533,6 +549,7 @@
 
   .inputContainer {
     padding: 10px;
+    margin-bottom: 15px;
   }
 
   .messageInput {
