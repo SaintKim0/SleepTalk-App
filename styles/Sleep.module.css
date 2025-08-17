@@ -521,3 +521,43 @@
     font-size: 0.85rem;
   }
 }
+
+/* 타이머 만료 알림 스타일 */
+.countdownText {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin-top: 15px;
+  text-align: center;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 모바일에서 타이머 만료 알림 */
+@media (max-width: 768px) {
+  .countdownText {
+    font-size: 1.3rem;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .countdownText {
+    font-size: 1.1rem;
+    margin-top: 10px;
+  }
+}

@@ -159,6 +159,9 @@ export const translations = {
       'Focus on your breathing',
       'Let your thoughts drift away',
     ],
+    timerExpired: 'Timer expired',
+    appWillClose: 'The app will close in 3 seconds',
+    goodNight: 'Good night! Sweet dreams!',
 
     // Sounds
     sounds: {
@@ -336,6 +339,9 @@ export const translations = {
       '호흡에 집중하세요',
       '생각을 흘려보내세요',
     ],
+    timerExpired: '타이머 만료',
+    appWillClose: '3초 후 앱이 종료됩니다',
+    goodNight: '좋은 밤 되세요! 달콤한 꿈 꾸세요!',
 
     // Sounds
     sounds: {

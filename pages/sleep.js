@@ -11,6 +11,8 @@ export default function Sleep() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(null);
   const [isDimmed, setIsDimmed] = useState(false);
+  const [showTimerExpired, setShowTimerExpired] = useState(false);
+  const [countdown, setCountdown] = useState(3);
   const audioRef = useRef(null);
 
   const sounds = [
@@ -39,8 +41,10 @@ export default function Sleep() {
             console.log('타이머 만료 - 수면 모드 자동 종료');
             setIsPlaying(false);
             setIsDimmed(false);
-            
-            // 타이머 만료 시 오디오 정리
+                         setShowTimerExpired(true);
+             setCountdown(3);
+             
+             // 타이머 만료 시 오디오 정리
             if (audioRef.current) {
               try {
                 if (audioRef.current.pause) {
@@ -84,6 +88,8 @@ export default function Sleep() {
               }
             }
             
+            
+            
             return null;
           }
           return prev - 1;
@@ -92,6 +98,38 @@ export default function Sleep() {
     }
     return () => clearInterval(interval);
   }, [isPlaying, timeRemaining]);
+
+  // 타이머 만료 시 카운트다운
+  useEffect(() => {
+    let countdownInterval;
+    if (showTimerExpired && countdown > 0) {
+      countdownInterval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            // 카운트다운 완료 시 앱 종료
+            try {
+              // PWA 환경에서 앱 종료 시도
+              if (window.navigator && window.navigator.app && window.navigator.app.exitApp) {
+                window.navigator.app.exitApp();
+              } else if (window.close) {
+                window.close();
+              } else {
+                // 앱 종료가 불가능한 경우 홈페이지로 리다이렉트
+                window.location.href = '/';
+              }
+            } catch (error) {
+              console.log('앱 종료 중 오류:', error);
+              // 오류 발생 시 홈페이지로 리다이렉트
+              window.location.href = '/';
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(countdownInterval);
+  }, [showTimerExpired, countdown]);
 
   // 컴포넌트 언마운트 시 오디오 정리
   useEffect(() => {
@@ -625,28 +663,40 @@ export default function Sleep() {
           <title>Sleep Mode - SleepTalk</title>
         </Head>
 
-        <div className={styles.dimmedContent}>
-          <div className={styles.sleepIcon}>🌙</div>
-          <h1 className={styles.sleepTitle}>{t('timeToSleep')}</h1>
-          <p className={styles.sleepText}>{t('sleepModeText')}</p>
+                 <div className={styles.dimmedContent}>
+           {showTimerExpired ? (
+             <>
+               <div className={styles.sleepIcon}>🌙</div>
+               <h1 className={styles.sleepTitle}>{t('timerExpired')}</h1>
+               <p className={styles.sleepText}>{t('appWillClose')}</p>
+               <p className={styles.goodNightText}>{t('goodNight')}</p>
+               <div className={styles.countdownText}>{countdown}...</div>
+             </>
+           ) : (
+            <>
+              <div className={styles.sleepIcon}>🌙</div>
+              <h1 className={styles.sleepTitle}>{t('timeToSleep')}</h1>
+              <p className={styles.sleepText}>{t('sleepModeText')}</p>
 
-          {timeRemaining && (
-            <div className={styles.timer}>
-              <span className={styles.timerText}>
-                {formatTime(timeRemaining)}
-              </span>
-            </div>
+              {timeRemaining && (
+                <div className={styles.timer}>
+                  <span className={styles.timerText}>
+                    {formatTime(timeRemaining)}
+                  </span>
+                </div>
+              )}
+
+              <button className={styles.stopButton} onClick={handleStopSleep}>
+                {t('stopSleepMode')}
+              </button>
+
+              <div className={styles.sleepTips}>
+                {t('sleepModeTips').map((tip, index) => (
+                  <p key={index}>💡 {tip}</p>
+                ))}
+              </div>
+            </>
           )}
-
-          <button className={styles.stopButton} onClick={handleStopSleep}>
-            {t('stopSleepMode')}
-          </button>
-
-          <div className={styles.sleepTips}>
-            {t('sleepModeTips').map((tip, index) => (
-              <p key={index}>💡 {tip}</p>
-            ))}
-          </div>
         </div>
       </div>
     );

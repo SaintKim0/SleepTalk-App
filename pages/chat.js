@@ -269,51 +269,44 @@ export default function Chat() {
             ← Back
           </Link>
           <h1 className={styles.title}>💬 {t('chatTitle')}</h1>
-          <p className={styles.subtitle}>{t('chatSubtitle')}</p>
           <div className={styles.turnCounter}>
             {t('turn', { current: turnCount, total: 5 })}
           </div>
+        </div>
 
-          {/* AI 모드 선택 및 초기화 버튼 */}
-          <div className={styles.aiModeSelector}>
-            <button
-              className={`${styles.aiModeButton} ${
-                aiMode === 'smart' ? styles.active : ''
-              }`}
-              onClick={() => handleAiModeChange('smart')}
-            >
-              🤖
-            </button>
-            <button
-              className={`${styles.aiModeButton} ${
-                aiMode === 'deepseek' ? styles.active : ''
-              } ${!useDeepSeek ? styles.disabled : ''}`}
-              onClick={() => useDeepSeek && handleAiModeChange('deepseek')}
-              disabled={!useDeepSeek}
-            >
-              🧠
-            </button>
-            <button
-              className={`${styles.aiModeButton} ${
-                aiMode === 'gpt' ? styles.active : ''
-              } ${!useGPT ? styles.disabled : ''}`}
-              onClick={() => useGPT && handleAiModeChange('gpt')}
-              disabled={!useGPT}
-            >
-              💬
-            </button>
-            {/* 대화 초기화 버튼을 AI 모드 선택 옆으로 이동 */}
-            <button
-              className={styles.resetButtonSmall}
-              onClick={handleResetConversation}
-              title="대화 초기화"
-            >
-              🔄
-            </button>
-          </div>
+        {/* AI 모드 선택 */}
+        <div className={styles.aiModeSelector}>
+          <button
+            className={`${styles.aiModeButton} ${
+              aiMode === 'smart' ? styles.active : ''
+            }`}
+            onClick={() => handleAiModeChange('smart')}
+          >
+            🤖
+          </button>
+          <button
+            className={`${styles.aiModeButton} ${
+              aiMode === 'deepseek' ? styles.active : ''
+            } ${!useDeepSeek ? styles.disabled : ''}`}
+            onClick={() => useDeepSeek && handleAiModeChange('deepseek')}
+            disabled={!useDeepSeek}
+          >
+            🧠
+          </button>
+          <button
+            className={`${styles.aiModeButton} ${
+              aiMode === 'gpt' ? styles.active : ''
+            } ${!useGPT ? styles.disabled : ''}`}
+            onClick={() => useGPT && handleAiModeChange('gpt')}
+            disabled={!useGPT}
+          >
+            💬
+          </button>
+        </div>
 
-          {/* AI 모드 표시 */}
-          <div className={styles.aiMode}>
+        {/* AI 모드 표시와 대화 초기화 버튼 */}
+        <div className={styles.aiMode}>
+          <div className={styles.aiModeDisplay}>
             {aiMode === 'deepseek' && useDeepSeek ? (
               <span className={styles.deepseekMode}>🧠 디피(Deepy)</span>
             ) : aiMode === 'gpt' && useGPT ? (
@@ -322,6 +315,13 @@ export default function Chat() {
               <span className={styles.smartMode}>🤖 스마트 AI</span>
             )}
           </div>
+          <button
+            className={styles.resetButton}
+            onClick={handleResetConversation}
+            title="대화 초기화"
+          >
+            🔄 새로 시작
+          </button>
         </div>
 
         <div className={styles.chatContainer}>
