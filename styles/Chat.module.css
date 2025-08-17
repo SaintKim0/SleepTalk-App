@@ -43,7 +43,7 @@
   .messagesContainer {
     padding: 15px;
     padding-bottom: 5px;
-    min-height: 220px;
+    min-height: 270px;
   }
   
   .inputContainer {
@@ -135,7 +135,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  min-height: 300px;
+  min-height: 350px;
 }
 
 .message {
@@ -445,14 +445,19 @@
 
   .aiModeSelector {
     gap: 8px;
-    margin: 8px 0;
+    margin: 6px 0 12px 0;
   }
 
   .aiModeButton {
-    width: 40px;
-    height: 40px;
-    font-size: 1.1rem;
-    padding: 6px 8px;
+    width: 50px;
+    height: 30px;
+    font-size: 1rem;
+    padding: 4px 6px;
+  }
+  
+  .aiModeButton::after {
+    font-size: 0.6rem;
+    bottom: -16px;
   }
 
   .endMessage {
@@ -536,7 +541,7 @@
   .messagesContainer {
     padding: 10px;
     padding-bottom: 5px;
-    min-height: 200px;
+    min-height: 250px;
   }
 
   .messageContent {
@@ -564,14 +569,19 @@
 
   .aiModeSelector {
     gap: 6px;
-    margin: 6px 0;
+    margin: 5px 0 10px 0;
   }
 
   .aiModeButton {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-    padding: 5px 6px;
+    width: 45px;
+    height: 28px;
+    font-size: 0.9rem;
+    padding: 3px 5px;
+  }
+  
+  .aiModeButton::after {
+    font-size: 0.55rem;
+    bottom: -14px;
   }
 
   .resetButtonSmall {
@@ -600,9 +610,7 @@
 }
 
 .aiMode {
-  text-align: center;
-  margin-top: 5px;
-  font-size: 0.8rem;
+  display: none;
 }
 
 .aiModeSelector {
@@ -610,7 +618,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin: 10px 0;
+  margin: 8px 0 15px 0;
   flex-wrap: nowrap;
   position: relative;
 }
@@ -619,18 +627,19 @@
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   color: white;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 12px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
-  width: 45px;
-  height: 45px;
+  width: 60px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .aiModeButton:hover:not(:disabled) {
@@ -650,6 +659,19 @@
   opacity: 0.5;
   cursor: not-allowed;
   background: rgba(255, 255, 255, 0.05);
+}
+
+/* AI 이름 표시를 위한 가상 요소 */
+.aiModeButton::after {
+  content: attr(data-name);
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  opacity: 0.8;
+  white-space: nowrap;
+  font-weight: 400;
 }
 
 .hfMode {
