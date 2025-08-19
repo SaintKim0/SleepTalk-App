@@ -168,11 +168,11 @@ export const translations = {
       rain: { name: 'Rain', description: 'Gentle rain sounds' },
       ocean: { name: 'Ocean', description: 'Calming ocean waves' },
       forest: { name: 'Forest', description: 'Peaceful forest ambience' },
-      heartbeat: {
-        name: 'Heartbeat',
-        description: 'Soothing heartbeat rhythm',
+      guitar: {
+        name: 'Guitar',
+        description: 'Soft acoustic guitar melodies',
       },
-      whiteNoise: { name: 'White Noise', description: 'Soft white noise' },
+      jazz2: { name: 'Jazz 2', description: 'Smooth jazz variations' },
       crickets: { name: 'Crickets', description: 'Night cricket sounds' },
       jazz: { name: 'Jazz', description: 'Smooth jazz melodies' },
       classical: { name: 'Classical', description: 'Elegant classical music' },
@@ -348,10 +348,10 @@ export const translations = {
       rain: { name: '비', description: '부드러운 빗소리' },
       ocean: { name: '바다', description: '차분한 파도 소리' },
       forest: { name: '숲', description: '평화로운 숲의 분위기' },
-      heartbeat: { name: '심장박동', description: '편안한 심장박동 리듬' },
-      whiteNoise: {
-        name: '화이트 노이즈',
-        description: '부드러운 화이트 노이즈',
+      guitar: { name: '기타', description: '부드러운 어쿠스틱 기타 멜로디' },
+      jazz2: {
+        name: '재즈2',
+        description: '부드러운 재즈 변주곡',
       },
       crickets: { name: '귀뚜라미', description: '밤 귀뚜라미 소리' },
       jazz: { name: '재즈', description: '부드러운 재즈 멜로디' },

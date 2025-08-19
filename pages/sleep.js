@@ -19,8 +19,8 @@ export default function Sleep() {
     { id: 'rain', icon: '🌧️' },
     { id: 'ocean', icon: '🌊' },
     { id: 'forest', icon: '🌲' },
-    { id: 'heartbeat', icon: '💓' },
-    { id: 'whiteNoise', icon: '🔇' },
+    { id: 'guitar', icon: '🎸' },
+    { id: 'jazz2', icon: '🎷' },
     { id: 'crickets', icon: '🦗' },
     { id: 'jazz', icon: '🎷' },
     { id: 'classical', icon: '🎻' },
@@ -339,44 +339,50 @@ export default function Sleep() {
             audioNodes.push({ oscillator: osc2, gainNode: gain2 });
             break;
 
-          case 'heartbeat':
-            const osc3 = audioContext.createOscillator();
-            const gain3 = audioContext.createGain();
+          case 'guitar':
+            for (let i = 0; i < 2; i++) {
+              const osc = audioContext.createOscillator();
+              const gain = audioContext.createGain();
+              const filter = audioContext.createBiquadFilter();
 
-            osc3.type = 'sine';
-            osc3.frequency.setValueAtTime(60, audioContext.currentTime);
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(220 + i * 110, audioContext.currentTime);
 
-            gain3.gain.setValueAtTime(0.1, audioContext.currentTime);
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(800, audioContext.currentTime);
 
-            osc3.connect(gain3);
-            gain3.connect(audioContext.destination);
+              gain.gain.setValueAtTime(0.04, audioContext.currentTime);
 
-            osc3.start();
-            audioNodes.push({ oscillator: osc3, gainNode: gain3 });
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioContext.destination);
+
+              osc.start();
+              audioNodes.push({ oscillator: osc, gainNode: gain, filter });
+            }
             break;
 
-          case 'whiteNoise':
-            const bufferSize = audioContext.sampleRate * 2;
-            const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-            const output = buffer.getChannelData(0);
+          case 'jazz2':
+            for (let i = 0; i < 3; i++) {
+              const osc = audioContext.createOscillator();
+              const gain = audioContext.createGain();
+              const filter = audioContext.createBiquadFilter();
 
-            for (let i = 0; i < bufferSize; i++) {
-              output[i] = Math.random() * 2 - 1;
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(150 + i * 80, audioContext.currentTime);
+
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(600, audioContext.currentTime);
+
+              gain.gain.setValueAtTime(0.03, audioContext.currentTime);
+
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioContext.destination);
+
+              osc.start();
+              audioNodes.push({ oscillator: osc, gainNode: gain, filter });
             }
-
-            const whiteNoise = audioContext.createBufferSource();
-            const gain4 = audioContext.createGain();
-
-            whiteNoise.buffer = buffer;
-            whiteNoise.loop = true;
-
-            gain4.gain.setValueAtTime(0.05, audioContext.currentTime);
-
-            whiteNoise.connect(gain4);
-            gain4.connect(audioContext.destination);
-
-            whiteNoise.start();
-            audioNodes.push({ oscillator: whiteNoise, gainNode: gain4 });
             break;
 
           case 'crickets':
