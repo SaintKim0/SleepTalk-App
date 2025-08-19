@@ -30,7 +30,7 @@ export default function Sleep() {
     { id: 'nature', icon: '🌿' },
   ];
 
-  const timers = [10, 15, 30, 60];
+  const timers = [1, 10, 15, 30, 60];
 
   useEffect(() => {
     let interval;
@@ -40,9 +40,9 @@ export default function Sleep() {
           if (prev <= 1) {
             console.log('타이머 만료 - 수면 모드 자동 종료');
             setIsPlaying(false);
-            setIsDimmed(false);
-                         setShowTimerExpired(true);
-             setCountdown(3);
+            // isDimmed은 그대로 유지하여 카운트다운 화면을 표시
+            setShowTimerExpired(true);
+            setCountdown(3);
              
              // 타이머 만료 시 오디오 정리
             if (audioRef.current) {
@@ -107,14 +107,21 @@ export default function Sleep() {
         setCountdown((prev) => {
           if (prev <= 1) {
             // 카운트다운 완료 시 앱 종료
+            console.log('카운트다운 완료 - 앱 종료 시도');
+            setIsDimmed(false); // 수면모드 화면 종료
+            
             try {
               // PWA 환경에서 앱 종료 시도
               if (window.navigator && window.navigator.app && window.navigator.app.exitApp) {
+                console.log('PWA 앱 종료 시도');
                 window.navigator.app.exitApp();
-              } else if (window.close) {
+              } else if (window.close && !window.opener) {
+                // 브라우저에서 직접 열린 창인 경우에만 close 시도
+                console.log('브라우저 창 종료 시도');
                 window.close();
               } else {
                 // 앱 종료가 불가능한 경우 홈페이지로 리다이렉트
+                console.log('홈페이지로 리다이렉트');
                 window.location.href = '/';
               }
             } catch (error) {
