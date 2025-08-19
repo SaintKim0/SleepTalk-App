@@ -1,65 +1,70 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import styles from '../styles/PWAInstallPrompt.module.css';
 
-const PWAInstallPrompt = () => {
+export default function PWAInstallPrompt() {
+  const { t } = useLanguage();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
 
   useEffect(() => {
-    const handler = (e) => {
+    // PWA 설치 이벤트 리스너
+    const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
       setShowInstallPrompt(true);
     };
 
-    window.addEventListener('beforeinstallprompt', handler);
+    // PWA 설치 완료 이벤트 리스너
+    const handleAppInstalled = () => {
+      setShowInstallPrompt(false);
+      setDeferredPrompt(null);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handler);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
     };
   }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-
-    if (outcome === 'accepted') {
-      console.log('사용자가 앱 설치를 수락했습니다');
-    } else {
-      console.log('사용자가 앱 설치를 거부했습니다');
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setShowInstallPrompt(false);
+        setDeferredPrompt(null);
+      }
     }
+  };
 
+  const handleSkipClick = () => {
+    setShowInstallPrompt(false);
     setDeferredPrompt(null);
-    setShowInstallPrompt(false);
   };
 
-  const handleDismiss = () => {
-    setShowInstallPrompt(false);
-  };
-
-  if (!showInstallPrompt) return null;
+  if (!showInstallPrompt) {
+    return null;
+  }
 
   return (
-    <div className={styles.installPrompt}>
-      <div className={styles.installContent}>
-        <div className={styles.installIcon}>📱</div>
-        <div className={styles.installText}>
-          <h3>SleepTalk 앱 설치</h3>
-          <p>홈 화면에 추가하여 더 빠르게 접근하세요!</p>
-        </div>
-        <div className={styles.installButtons}>
-          <button onClick={handleInstallClick} className={styles.installButton}>
-            설치하기
+    <div className={styles.overlay}>
+      <div className={styles.modal}>
+        <div className={styles.icon}>📱</div>
+        <h2 className={styles.title}>{t('pwaInstallTitle')}</h2>
+        <p className={styles.text}>{t('pwaInstallText')}</p>
+        <div className={styles.buttons}>
+          <button className={styles.installButton} onClick={handleInstallClick}>
+            {t('pwaInstallButton')}
           </button>
-          <button onClick={handleDismiss} className={styles.dismissButton}>
-            나중에
+          <button className={styles.skipButton} onClick={handleSkipClick}>
+            {t('pwaInstallSkip')}
           </button>
         </div>
       </div>
     </div>
   );
-};
-
-export default PWAInstallPrompt;
+}

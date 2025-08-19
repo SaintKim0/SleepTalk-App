@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styles from '../styles/Sleep.module.css';
 import { useLanguage } from '../contexts/LanguageContext';
+import PWAInstallPrompt from '../components/PWAInstallPrompt';
 
 export default function Sleep() {
   const { t } = useLanguage();
@@ -40,9 +41,10 @@ export default function Sleep() {
           if (prev <= 1) {
             console.log('타이머 만료 - 수면 모드 자동 종료');
             setIsPlaying(false);
-            // isDimmed은 그대로 유지하여 카운트다운 화면을 표시
             setShowTimerExpired(true);
             setCountdown(3);
+            // isDimmed은 그대로 유지하여 카운트다운 화면을 표시
+            console.log('타이머 만료 화면 표시 - 카운트다운 시작');
              
              // 타이머 만료 시 오디오 정리
             if (audioRef.current) {
@@ -106,27 +108,17 @@ export default function Sleep() {
       countdownInterval = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
-            // 카운트다운 완료 시 앱 종료
+            // 카운트다운 완료 시 앱 종료 시도
             console.log('카운트다운 완료 - 앱 종료 시도');
-            setIsDimmed(false); // 수면모드 화면 종료
             
-            try {
-              // PWA 환경에서 앱 종료 시도
-              if (window.navigator && window.navigator.app && window.navigator.app.exitApp) {
-                console.log('PWA 앱 종료 시도');
-                window.navigator.app.exitApp();
-              } else if (window.close && !window.opener) {
-                // 브라우저에서 직접 열린 창인 경우에만 close 시도
-                console.log('브라우저 창 종료 시도');
-                window.close();
-              } else {
-                // 앱 종료가 불가능한 경우 홈페이지로 리다이렉트
-                console.log('홈페이지로 리다이렉트');
-                window.location.href = '/';
-              }
-            } catch (error) {
-              console.log('앱 종료 중 오류:', error);
-              // 오류 발생 시 홈페이지로 리다이렉트
+            // PWA 환경에서 앱 종료 시도
+            if (window.navigator && window.navigator.app && window.navigator.app.exitApp) {
+              console.log('PWA 앱 종료 시도');
+              window.navigator.app.exitApp();
+            } else {
+              // 브라우저에서는 홈페이지로 리다이렉트
+              console.log('브라우저 환경 - 홈페이지로 리다이렉트');
+              setIsDimmed(false);
               window.location.href = '/';
             }
             return 0;
@@ -793,6 +785,9 @@ export default function Sleep() {
           </ul>
         </div>
       </main>
+
+      {/* PWA 설치 안내 */}
+      <PWAInstallPrompt />
     </div>
   );
 }

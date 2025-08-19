@@ -162,6 +162,11 @@ export const translations = {
     timerExpired: 'Timer expired',
     appWillClose: 'The app will close in 3 seconds',
     goodNight: 'Good night! Sweet dreams!',
+    browserCloseNote: 'Please close the browser tab manually',
+    pwaInstallTitle: 'Install SleepTalk App',
+    pwaInstallText: 'For the best experience, install SleepTalk as an app on your device.',
+    pwaInstallButton: 'Install App',
+    pwaInstallSkip: 'Skip for now',
 
     // Sounds
     sounds: {
@@ -342,6 +347,11 @@ export const translations = {
     timerExpired: '타이머 만료',
     appWillClose: '3초 후 앱이 종료됩니다',
     goodNight: '좋은 밤 되세요! 달콤한 꿈 꾸세요!',
+    browserCloseNote: '브라우저 탭을 직접 닫아주세요',
+    pwaInstallTitle: 'SleepTalk 앱 설치',
+    pwaInstallText: '더 나은 경험을 위해 SleepTalk을 앱으로 설치하세요.',
+    pwaInstallButton: '앱 설치',
+    pwaInstallSkip: '나중에',
 
     // Sounds
     sounds: {

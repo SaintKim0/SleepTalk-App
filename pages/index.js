@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import { useLanguage } from '../contexts/LanguageContext';
 import ChatModal from '../components/ChatModal';
+import PWAInstallPrompt from '../components/PWAInstallPrompt';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -101,6 +102,9 @@ export default function Home() {
         onClose={handleCloseChatModal}
         selectedEmotion={selectedEmotion}
       />
+
+      {/* PWA 설치 안내 */}
+      <PWAInstallPrompt />
     </div>
   );
 }

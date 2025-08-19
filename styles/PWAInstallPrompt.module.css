@@ -1,128 +1,164 @@
-.installPrompt {
+.overlay {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border: 2px solid #e94560;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  max-width: 350px;
-  width: 90%;
-  animation: slideUp 0.3s ease-out;
-}
-
-.installContent {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-in;
 }
 
-.installIcon {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  animation: pulse 2s infinite;
-}
-
-.installText h3 {
-  color: #ffffff;
-  margin: 0 0 8px 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.installText p {
-  color: #b8b8b8;
-  margin: 0 0 20px 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.installButtons {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-}
-
-.installButton {
-  flex: 1;
-  background: linear-gradient(135deg, #e94560 0%, #c44569 100%);
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 25px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
-}
-
-.installButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
-}
-
-.dismissButton {
-  flex: 1;
-  background: transparent;
-  color: #b8b8b8;
-  border: 2px solid #b8b8b8;
-  padding: 12px 20px;
-  border-radius: 25px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.dismissButton:hover {
-  background: rgba(184, 184, 184, 0.1);
-  color: #ffffff;
-}
-
-@keyframes slideUp {
+@keyframes fadeIn {
   from {
-    transform: translateX(-50%) translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
+.modal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  color: white;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
   }
-  50% {
-    transform: scale(1.1);
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
+.icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.text {
+  font-size: 1rem;
+  margin-bottom: 25px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.installButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-weight: 500;
+}
+
+.installButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.skipButton {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.skipButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
 /* 모바일 반응형 */
-@media (max-width: 480px) {
-  .installPrompt {
-    bottom: 10px;
-    padding: 15px;
-    max-width: 320px;
+@media (max-width: 768px) {
+  .modal {
+    padding: 25px;
+    margin: 20px;
   }
 
-  .installText h3 {
-    font-size: 1.1rem;
+  .title {
+    font-size: 1.3rem;
   }
 
-  .installText p {
-    font-size: 0.85rem;
+  .text {
+    font-size: 0.9rem;
   }
 
-  .installButtons {
+  .buttons {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+  }
+
+  .installButton,
+  .skipButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 20px;
+  }
+
+  .icon {
+    font-size: 2.5rem;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .text {
+    font-size: 0.85rem;
   }
 }
